@@ -15,10 +15,10 @@ public class Main{
 
         int opcion=0;
         while (opcion!=5) {
-        System.out.println("Control de calidad de productos: ");
-        System.out.println("1)Ingreso de datos: ");
-        System.out.println("2)Clasificacion de datos: ");
-        System.out.println("3)Movimientos o historial: ");
+        System.out.println("----------Bienvenido al control de calidad de productos-------------");
+        System.out.println("1)Mantenimiento de codigo/Ingreso de datos: ");
+        System.out.println("2)Parametrizacion /Clasificacion de productos: ");
+        System.out.println("3)Procesamiento /historial: ");
         System.out.println("4)Consultas: ");
         System.out.println("5)Salir: ");
         while (true){
@@ -42,8 +42,7 @@ public class Main{
         //Llamo al metodo para que ejecute todo
             iniciar.Final(opcion);
 
-        }    
-        
+        }
         
     }
 }    

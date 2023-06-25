@@ -2,7 +2,7 @@
 package com.mycompany.proyecto;
 
 import java.io.IOException;
-import java.util.InputMismatchException; //ExcepciÛn de tipo de entrada incorrecta
+import java.util.InputMismatchException; //Excepcian de tipo de entrada incorrecta
 import java.util.Scanner;
 
 public class logica {
@@ -14,6 +14,7 @@ public class logica {
     //Creamos objetos de cada clase para usar los datos de esas clases y los metodos
     //Creamos 4 clases para los productos
     Producto[] Producto = new Producto[registrosMax]; //Primero sirve para almacenarlos sin marca
+    Producto[] ProductoEliminados = new Producto[registrosMax]; //Para almacenar los eliminados
     Samsung[] Samsung = new Samsung[registrosMax];
     RCA[] RCA = new RCA[registrosMax];
     Lg[] Lg = new Lg[registrosMax];
@@ -24,7 +25,7 @@ public class logica {
     private int ingresos=0; //Sirve para estar al tanto de cuantos ingresos de datos se han hecho
     private int movimientos=0; //Sirve para saber si se a realizado algun movimiento de datos a otra clase
 
-    private int movimientosSamsung=0; //Para saber si se ingreso aquÌ
+    private int movimientosSamsung=0; //Para saber si se ingreso aqua
     private int movimientosRCA=0;
     private int movimientosLg=0;
 
@@ -44,7 +45,7 @@ public class logica {
      break;
      } catch (InputMismatchException e) {
         System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-        sc.nextLine(); // Descartar token inv·lido
+        sc.nextLine(); // Descartar token invalido
         }
     }
     //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de peso
@@ -56,13 +57,13 @@ public class logica {
      break;
      } catch (InputMismatchException e) {
         System.out.println("Dato incorrecto. Solo se acepta numeros enteros o decimales");
-        sc.nextLine(); // Descartar token inv·lido
+        sc.nextLine(); // Descartar token invalido
         }
     }
 
      System.out.println("Ingresa la fecha de Ingreso:");
      int dia, mes, anio;
-     //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a?o
+     //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a√±o
      while (true) {
         try {
             //Iniciamos un bucle para que ingrese un numero del dia correcto
@@ -79,7 +80,7 @@ public class logica {
      break;
      } catch (InputMismatchException e) {
         System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-        sc.nextLine(); // Descartar token inv·lido
+        sc.nextLine(); // Descartar token invalido
         }
     }
 
@@ -98,7 +99,7 @@ public class logica {
      break;
      } catch (InputMismatchException e) {
         System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-        sc.nextLine(); // Descartar token inv·lido
+        sc.nextLine(); // Descartar token invalido
         }
     }
 
@@ -106,18 +107,18 @@ public class logica {
         try {
             do{
 
-     System.out.print("A?o:");
+     System.out.print("A√±o:");
      anio= sc.nextInt();
           if (anio>=2022 && anio<=2024) {
           System.out.println("Dato ingresado correctamente");
         }else{
-        System.out.println("Solo se puede ingresar desde el a?o 2022 al 2024");
+        System.out.println("Solo se puede ingresar desde el a√±o 2022 al 2024");
         }
      }while(anio<=2021 || anio>=2025);
      break;
      } catch (InputMismatchException e) {
         System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-        sc.nextLine(); // Descartar token inv·lido
+        sc.nextLine(); // Descartar token invalido
         }
     }
      //Usamos el objeto para almacenar los datos y enviarlos atravez del objeto constructor
@@ -151,6 +152,549 @@ public class logica {
          }
      }
  }
+ 
+ //Metodo para editar los datos ingresados
+    private void EditarDatos() throws InterruptedException {
+        if (ingresos == 0 && movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0) {
+            System.out.println("No hay datos Ingresados");
+            System.out.println("-----------------------------------------");
+            promptEnterKey();
+            try {
+                // Limpiar la ventana
+                limpiarventana();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
+        } else {
+            int opcionEditar=0;
+            do {
+                System.out.println("-----------------------------------------");
+                System.out.println("Editar Datos Ingresados");
+                System.out.println("-----------------------------------------");
+                System.out.println("1) Productos base sin clasificar");
+                System.out.println("2) Productos Samsung");
+                System.out.println("3) Productos RCA");
+                System.out.println("4) Productos LG");
+                System.out.println("5) Regresar al menu principal");
+                opcionEditar= sc.nextInt();
+                switch (opcionEditar){
+                    case 1:
+                        System.out.println("-----------------------------------------");
+                        System.out.println("Productos base sin clasificar");
+                        System.out.println("-----------------------------------------");
+                        if (ingresos!=0) {
+                            for (int i = 0; i < ingresos; i++) {
+                                System.out.println((i+1)+") "+Producto[i].getModelo());
+                            }
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Ingresa la numero de la lista que deseas editar");
+                            int opcionEditarProducto= sc.nextInt();
+                            if (opcionEditarProducto<=ingresos && opcionEditarProducto>=1) {
+                                System.out.println("-----------------------------------------");
+                                System.out.println("Ingresa el modelo del producto: ");
+                                String modelo = sc.next();
+                                int unidades;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa las nuevas unidades: ");
+                                        unidades = sc.nextInt();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de peso
+                                double peso;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa el nuevo peso del pruducto(kg): ");
+                                        peso = sc.nextDouble();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros o decimales");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                System.out.println("Ingresa la nueva fecha de Ingreso:");
+                                int dia, mes, anio;
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a√±o
+                                while (true) {
+                                    try {
+                                        //Iniciamos un bucle para que ingrese un numero del dia correcto
+                                        do{
+                                            System.out.print("Dia:");
+                                            dia = sc.nextInt();
+                                            if (dia>=1 && dia<=31 ) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese dia no existe, vuelve a ingresar un numero del dia");
+                                            }
+                                        }while( dia<=0 || dia>=32 );
+                                        //Aqui se acaba el bucle
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+                                            System.out.print("Mes:");
+                                            mes = sc.nextInt();
+                                            if (mes>=1 && mes<=12) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese mes no existe, vuelve a ingresar un numero del mes");
+                                            }
+                                        }while(mes<=0 || mes>=13);
+
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+
+                                            System.out.print("A√±o:");
+                                            anio= sc.nextInt();
+                                            if (anio>=2022 && anio<=2024) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Solo se puede ingresar desde el a√±o 2022 al 2024");
+                                            }
+                                        }while(anio<=2021 || anio>=2025);
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+                                Producto[opcionEditarProducto-1]=new Producto(modelo,unidades,peso,dia,mes,anio);
+                                System.out.println("Producto editado correctamente");
+                                promptEnterKey();
+                                try {
+                                    // Limpiar la ventana
+                                    limpiarventana();
+                                } catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
+                            }else{
+                                System.out.println("No existe ese numero en la lista");
+                            }
+                        }else{
+                            System.out.println("No hay datos Ingresados");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("-----------------------------------------");
+                        System.out.println("Productos Samsung");
+                        System.out.println("-----------------------------------------");
+                        if (movimientosSamsung!=0) {
+                            for (int i = 0; i < movimientosSamsung; i++) {
+                                System.out.println((i+1)+") "+Samsung[i].getModelo());
+                            }
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Ingresa la numero de la lista que deseas editar");
+                            int opcionEditarProducto= sc.nextInt();
+                            if (opcionEditarProducto<=movimientosSamsung && opcionEditarProducto>=1) {
+                                System.out.println("-----------------------------------------");
+                                System.out.println("Ingresa el nuevo modelo del producto: ");
+                                String modelo = sc.next();
+                                int unidades;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa las nuevas unidades: ");
+                                        unidades = sc.nextInt();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de peso
+                                double peso;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa el nuevo peso del pruducto(kg): ");
+                                        peso = sc.nextDouble();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros o decimales");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                System.out.println("Ingresa la nueva fecha de Ingreso:");
+                                int dia, mes, anio;
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a√±o
+                                while (true) {
+                                    try {
+                                        //Iniciamos un bucle para que ingrese un numero del dia correcto
+                                        do{
+                                            System.out.print("Dia:");
+                                            dia = sc.nextInt();
+                                            if (dia>=1 && dia<=31 ) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese dia no existe, vuelve a ingresar un numero del dia");
+                                            }
+                                        }while( dia<=0 || dia>=32 );
+                                        //Aqui se acaba el bucle
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+                                            System.out.print("Mes:");
+                                            mes = sc.nextInt();
+                                            if (mes>=1 && mes<=12) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese mes no existe, vuelve a ingresar un numero del mes");
+                                            }
+                                        }while(mes<=0 || mes>=13);
+
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+
+                                            System.out.print("A√±o:");
+                                            anio= sc.nextInt();
+                                            if (anio>=2022 && anio<=2024) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Solo se puede ingresar desde el a√±o 2022 al 2024");
+                                            }
+                                        }while(anio<=2021 || anio>=2025);
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+
+                                }
+                                System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
+                                String estado = sc.next();
+                                int garantia;
+                                while (true) try {
+                                    System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
+                                    garantia = sc.nextInt();
+                                    break;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                    sc.nextLine(); // Descartar token invalido
+                                }
+
+                                Samsung[opcionEditarProducto-1]=new Samsung(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                System.out.println("Producto editado correctamente");
+                                promptEnterKey();
+                                try {
+                                    // Limpiar la ventana
+                                    limpiarventana();
+                                } catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
+                            }else{
+                                System.out.println("No existe ese numero en la lista");
+                            }
+                        }else{
+                            System.out.println("No hay datos Ingresados");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("-----------------------------------------");
+                        System.out.println("Productos RCA");
+                        System.out.println("-----------------------------------------");
+                        if (movimientosRCA!=0) {
+                            for (int i = 0; i < movimientosRCA; i++) {
+                                System.out.println((i+1)+") "+RCA[i].getModelo());
+                            }
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Ingresa la numero de la lista que deseas editar");
+                            int opcionEditarProducto= sc.nextInt();
+                            if (opcionEditarProducto<=movimientosRCA && opcionEditarProducto>=1) {
+                                System.out.println("-----------------------------------------");
+                                System.out.println("Ingresa el nuevo modelo del producto: ");
+                                String modelo = sc.next();
+                                int unidades;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa las nuevas unidades: ");
+                                        unidades = sc.nextInt();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de peso
+                                double peso;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa el nuevo peso del pruducto(kg): ");
+                                        peso = sc.nextDouble();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros o decimales");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                System.out.println("Ingresa la nueva fecha de Ingreso:");
+                                int dia, mes, anio;
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a√±o
+                                while (true) {
+                                    try {
+                                        //Iniciamos un bucle para que ingrese un numero del dia correcto
+                                        do{
+                                            System.out.print("Dia:");
+                                            dia = sc.nextInt();
+                                            if (dia>=1 && dia<=31 ) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese dia no existe, vuelve a ingresar un numero del dia");
+                                            }
+                                        }while( dia<=0 || dia>=32 );
+                                        //Aqui se acaba el bucle
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+                                            System.out.print("Mes:");
+                                            mes = sc.nextInt();
+                                            if (mes>=1 && mes<=12) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese mes no existe, vuelve a ingresar un numero del mes");
+                                            }
+                                        }while(mes<=0 || mes>=13);
+
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+
+                                            System.out.print("A√±o:");
+                                            anio= sc.nextInt();
+                                            if (anio>=2022 && anio<=2024) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Solo se puede ingresar desde el a√±o 2022 al 2024");
+                                            }
+                                        }while(anio<=2021 || anio>=2025);
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+
+                                }
+                                System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
+                                String estado = sc.next();
+                                int garantia;
+                                while (true) try {
+                                    System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
+                                    garantia = sc.nextInt();
+                                    break;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                    sc.nextLine(); // Descartar token invalido
+                                }
+
+                                RCA[opcionEditarProducto-1]=new RCA(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                System.out.println("Producto editado correctamente");
+                                promptEnterKey();
+                                try {
+                                    // Limpiar la ventana
+                                    limpiarventana();
+                                } catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
+                            }else{
+                                System.out.println("No existe ese numero en la lista");
+                            }
+                        }else{
+                            System.out.println("No hay datos Ingresados");
+                        }
+                        break;
+                    case 4:
+                        System.out.println("-----------------------------------------");
+                        System.out.println("Productos Lg");
+                        System.out.println("-----------------------------------------");
+                        if (movimientosLg!=0) {
+                            for (int i = 0; i < movimientosLg; i++) {
+                                System.out.println((i+1)+") "+Lg[i].getModelo());
+                            }
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Ingresa la numero de la lista que deseas editar");
+                            int opcionEditarProducto= sc.nextInt();
+                            if (opcionEditarProducto<=movimientosLg && opcionEditarProducto>=1) {
+                                System.out.println("-----------------------------------------");
+                                System.out.println("Ingresa el nuevo modelo del producto: ");
+                                String modelo = sc.next();
+                                int unidades;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa las nuevas unidades: ");
+                                        unidades = sc.nextInt();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de peso
+                                double peso;
+                                while (true) {
+                                    try {
+                                        System.out.println("Ingresa el nuevo peso del pruducto(kg): ");
+                                        peso = sc.nextDouble();
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros o decimales");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                System.out.println("Ingresa la nueva fecha de Ingreso:");
+                                int dia, mes, anio;
+                                //Iniciamos con los try catch en bucle hasta que se ingresen bien el dato de dia, mes y a√±o
+                                while (true) {
+                                    try {
+                                        //Iniciamos un bucle para que ingrese un numero del dia correcto
+                                        do{
+                                            System.out.print("Dia:");
+                                            dia = sc.nextInt();
+                                            if (dia>=1 && dia<=31 ) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese dia no existe, vuelve a ingresar un numero del dia");
+                                            }
+                                        }while( dia<=0 || dia>=32 );
+                                        //Aqui se acaba el bucle
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+                                            System.out.print("Mes:");
+                                            mes = sc.nextInt();
+                                            if (mes>=1 && mes<=12) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Ese mes no existe, vuelve a ingresar un numero del mes");
+                                            }
+                                        }while(mes<=0 || mes>=13);
+
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+                                }
+
+                                while (true) {
+                                    try {
+                                        do{
+
+                                            System.out.print("A√±o:");
+                                            anio= sc.nextInt();
+                                            if (anio>=2022 && anio<=2024) {
+                                                System.out.println("Dato ingresado correctamente");
+                                            }else{
+                                                System.out.println("Solo se puede ingresar desde el a√±o 2022 al 2024");
+                                            }
+                                        }while(anio<=2021 || anio>=2025);
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                        sc.nextLine(); // Descartar token invalido
+                                    }
+
+                                }
+                                System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
+                                String estado = sc.next();
+                                int garantia;
+                                while (true) try {
+                                    System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
+                                    garantia = sc.nextInt();
+                                    break;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                    sc.nextLine(); // Descartar token invalido
+                                }
+
+                                Lg[opcionEditarProducto-1]=new Lg(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                System.out.println("Producto editado correctamente");
+                                promptEnterKey();
+                                try {
+                                    // Limpiar la ventana
+                                    limpiarventana();
+                                } catch (IOException ioe) {
+                                    ioe.printStackTrace();
+                                }
+                            }else{
+                                System.out.println("No existe ese numero en la lista");
+                            }
+                        }else{
+                            System.out.println("No hay datos Ingresados");
+                        }
+                        break;
+                        case 5:
+                            System.out.println("Regresando al menu principal...........");
+                            promptEnterKey();
+                            try {
+                                // Limpiar la ventana
+                                limpiarventana();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
+                            break;
+                    default:
+                        System.out.println("Opcion no valida");
+                        break;
+                }
+            } while (opcionEditar !=5);
+        }
+    }
   private void ClasificarDatos() throws InterruptedException { //Metodo para clasificar los datos almacenados en la clase Producto y moverlos a otra clase
       //Verificamos si hay datos ingresados
       if (Producto[0]== null) {
@@ -174,7 +718,7 @@ public class logica {
          }
 
       //Creamos un while usando un booleno para salir, el bucle sirve para que el usuario ingrese una
-      //Opcion correcta y no otra porque luego eligira un espacio vacio y dar· un error
+      //Opcion correcta y no otra porque luego eligira un espacio vacio y dara un error
       boolean salir=false;
       //Primero al momento de elegir la una opcion de la lista creamos un try catch para que no ingresen texto
       while (!salir) {
@@ -185,7 +729,7 @@ public class logica {
             break;
         } catch (InputMismatchException e) {
             System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
-            sc.nextLine(); // Descartar token inv·lido
+            sc.nextLine(); // Descartar token invalido
         }
 
       //Verificamos que aya ingresado una opcion correcta entre el rango de ingresos
@@ -202,16 +746,16 @@ public class logica {
                   //Verificamos ya que solo se puede guardar los productos max que estan establecidos
                   if (movimientosSamsung < registrosMax) {
                       //Ingresamos los datos faltantes al clasificarlo
-                      System.out.println("Ingrese el estado del producto(Perfecto-Da?ado-Vacio):");
+                      System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
                       String estado = sc.next();
                       int garantia;
                       while (true) try {
-                          System.out.println("Ingrese cuantos a?os de garantia tendra el Producto: ");
+                          System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
                           garantia = sc.nextInt();
                           break;
                       } catch (InputMismatchException e) {
                           System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-                          sc.nextLine(); // Descartar token inv·lido
+                          sc.nextLine(); // Descartar token invalido
                       }
 
                       //Hacemos paso por valor indicando que lo guarde en la posicion que este el movimientosSamsung
@@ -220,7 +764,7 @@ public class logica {
 
                       Samsung[movimientosSamsung] = new Samsung(estado, garantia, opcionMarca, Producto[opcion - 1].getModelo()
                               , Producto[opcion - 1].getUnidades(), Producto[opcion - 1].getPeso(), Producto[opcion - 1].getDia(), Producto[opcion - 1].getMes(), Producto[opcion - 1].getAnio());
-                      System.out.println("Se a realizado con exitÛ el cambio");
+                      System.out.println("Se a realizado con exita el cambio");
                       System.out.println("-----------------------------------------");
                       //Va sumando los movimientos para usarlo en trasacciones o movimientos realizados
                       movimientos++;
@@ -252,20 +796,20 @@ public class logica {
               case "rca" -> {
                   //Verificamos ya que solo se puede guardar los productos max que estan establecidos
                   if (movimientosRCA < registrosMax) {
-                      System.out.println("Ingrese el estado del producto(Perfecto-Da?ado-Vacio):");
+                      System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
                       String estado = sc.next();
                       int garantia;
                       while (true) try {
-                          System.out.println("Ingrese cuantos a?os de garantia tendra el Producto: ");
+                          System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
                           garantia = sc.nextInt();
                           break;
                       } catch (InputMismatchException e) {
                           System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-                          sc.nextLine(); // Descartar token inv·lido
+                          sc.nextLine(); // Descartar token invalido
                       }
                       RCA[movimientosRCA] = new RCA(estado, garantia, opcionMarca, Producto[opcion - 1].getModelo(), Producto[opcion - 1].getUnidades()
                               , Producto[opcion - 1].getPeso(), Producto[opcion - 1].getDia(), Producto[opcion - 1].getMes(), Producto[opcion - 1].getAnio());
-                      System.out.println("Se a realizado con exitÛ el cambio");
+                      System.out.println("Se a realizado con exita el cambio");
                       System.out.println("-----------------------------------------");
                       //Va sumando los movimientos para usarlo en trasacciones o movimientos realizados
                       movimientos++;
@@ -297,20 +841,20 @@ public class logica {
               case "lg" -> {
                   //Verificamos ya que solo se puede guardar los productos max que estan establecidos
                   if (movimientosLg < registrosMax) {
-                      System.out.println("Ingrese el estado del producto(Perfecto-Da?ado-Vacio):");
+                      System.out.println("Ingrese el estado del producto(Perfecto-Da√±ado-Vacio):");
                       String estado = sc.next();
                       int garantia;
                       while (true) try {
-                          System.out.println("Ingrese cuantos a?os de garantia tendra el Producto: ");
+                          System.out.println("Ingrese cuantos a√±os de garantia tendra el Producto: ");
                           garantia = sc.nextInt();
                           break;
                       } catch (InputMismatchException e) {
                           System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
-                          sc.nextLine(); // Descartar token inv·lido
+                          sc.nextLine(); // Descartar token invalido
                       }
                       Lg[movimientosLg] = new Lg(estado, garantia, opcionMarca, Producto[opcion - 1].getModelo(), Producto[opcion - 1].getUnidades()
                               , Producto[opcion - 1].getPeso(), Producto[opcion - 1].getDia(), Producto[opcion - 1].getMes(), Producto[opcion - 1].getAnio());
-                      System.out.println("Se a realizado con exitÛ el cambio");
+                      System.out.println("Se a realizado con exita el cambio");
                       System.out.println("-----------------------------------------");
                       promptEnterKey();
                       try
@@ -433,13 +977,13 @@ private void ConsultasModelo() throws InterruptedException { //Void para hacer c
 
     System.out.println("-----------------------------------------");
 
-    //Creamos un metodo booleano para ver si se encontrÛ o no el modelo
+    //Creamos un metodo booleano para ver si se encontra o no el modelo
     boolean encontrado1 =false;
     //Primero usamos un for para encontrar el producto con las caracteristicas que ingrese el usuario
     //Ejecutamos un for con Producto.length para que solo verifique los espacios llenos
     for (int i = 0; i < Producto.length; i++) {
-        //Si el elemento en la posiciÛn "i" del arreglo no es nulo y el modelo igual se encuentra,
-        //sin importar las may˙sculas o min˙sculas, Entonces imprimira sus datos
+        //Si el elemento en la posician "i" del arreglo no es nulo y el modelo igual se encuentra,
+        //sin importar las mayasculas o minasculas, Entonces imprimira sus datos
             if(Samsung[i]!= null && Samsung[i].getModelo().equalsIgnoreCase(consulta) &&
                     Samsung[i].getMarca().equalsIgnoreCase(consultaM) && Samsung[i].getEstado().equalsIgnoreCase(consultaE)){
                 System.out.println("Producto marca Samsung:");
@@ -471,7 +1015,7 @@ private void ConsultasModelo() throws InterruptedException { //Void para hacer c
                 if (Producto[i] != null && Producto[i].getModelo().equalsIgnoreCase(consulta)) {
                     Producto[i].MostrarDatos();
                     System.out.println("-----------------------------------------P");
-                    //Si el producto se encontrÛ aqui o en otro if entonces el valor booleano sera verdad
+                    //Si el producto se encontra aqui o en otro if entonces el valor booleano sera verdad
                     encontrado2 = true;
                 }
             }
@@ -546,7 +1090,7 @@ private void ConsultasMarcas() throws InterruptedException {//Metodo para consul
             break;
         } catch (InputMismatchException e) {
             System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
-            sc.nextLine(); // Descartar token inv·lido
+            sc.nextLine(); // Descartar token invalido
         }
         //Iniciamos el switch segun la opcion
         switch (opcion) {
@@ -654,7 +1198,7 @@ private void ConsultasMarcas() throws InterruptedException {//Metodo para consul
     }
 }
 
-private void MostrarEstado() throws InterruptedException { //Metodo para Mostrar todos los productos que que este en estado da?ado, perfecto y vacio
+private void MostrarEstado() throws InterruptedException { //Metodo para Mostrar todos los productos que que este en estado da√±ado, perfecto y vacio
      //Primero verificamos que esten llenos
 if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
     System.out.println("No hay datos datos clasificados");
@@ -674,7 +1218,7 @@ if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
     do {
         //Mostramos el menu de opciones
     System.out.println("1) Mostrar los productos en perfecto estado");
-    System.out.println("2) Mostrar los productos que esten da?ados");
+    System.out.println("2) Mostrar los productos que esten da√±ados");
     System.out.println("3) Mostrar los productos que esten Vacio");
     System.out.println("4) Salir");
         while (true) {
@@ -683,7 +1227,7 @@ if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
-                sc.nextLine(); // Descartar token inv·lido
+                sc.nextLine(); // Descartar token invalido
             }
         }
     //Segun la opcion mostra el estado del producto
@@ -739,24 +1283,24 @@ if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
                 boolean encontradoD = false;
                 System.out.println("-----------------------------------------");
                 for (int i = 0; i < Producto.length; i++) {
-                    if (Samsung[i] != null && Samsung[i].getEstado().equalsIgnoreCase("Da?ado")) {
+                    if (Samsung[i] != null && Samsung[i].getEstado().equalsIgnoreCase("Da√±ado")) {
                         Samsung[i].MostrarDatos();
                         encontradoD = true;
                         System.out.println("-----------------------------------------");
                     }
-                    if (RCA[i] != null && RCA[i].getEstado().equalsIgnoreCase("Da?ado")) {
+                    if (RCA[i] != null && RCA[i].getEstado().equalsIgnoreCase("Da√±ado")) {
                         RCA[i].MostrarDatos();
                         encontradoD = true;
                         System.out.println("-----------------------------------------");
                     }
-                    if (Lg[i] != null && Lg[i].getEstado().equalsIgnoreCase("Da?ado")) {
+                    if (Lg[i] != null && Lg[i].getEstado().equalsIgnoreCase("Da√±ado")) {
                         Lg[i].MostrarDatos();
                         encontradoD = true;
                         System.out.println("-----------------------------------------");
                     }
                 }
                 if (!encontradoD) {
-                    System.out.println("No hay productos da?ados");
+                    System.out.println("No hay productos da√±ados");
                     System.out.println("-----------------------------------------");
                     promptEnterKey();
                     try
@@ -846,18 +1390,70 @@ if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
 }
 }
 
-
+private void MostrarEliminados(){
+    //Este metodo es para mostrar los productos eliminados
+    //Y aqui se mostraran los productos eliminados
+    System.out.println("-----------------------------------------");
+    System.out.println("Productos eliminados");
+    System.out.println("-----------------------------------------");
+    for (int i = 0; i < Producto.length; i++) {
+        if (Samsung[i] != null && Samsung[i].getEstado().equalsIgnoreCase("Eliminado")) {
+            Samsung[i].MostrarDatos();
+            System.out.println("-----------------------------------------");
+        }
+    }
+}
 
 public void  Final (int opcion) throws InterruptedException {
     //Y en este ultimo metodo se quedara en publico para que el programador solo pueda usar este metodo
     //Y aqui inicializara todos los metodos y si faltara uno daria error ya que algunos datos solo estan guardado en un metodo
+    System.out.println("Control de calidad de productos: ");
+    System.out.println("1)Ingreso de datos: ");
+    System.out.println("2)Clasificacion de datos: ");
+    System.out.println("3)Movimientos o historial: ");
+    System.out.println("4)Consultas: ");
+    System.out.println("5)Salir: ");
     switch (opcion) {
         case 1 -> {
-            System.out.println("-----------------------------------------");
-            //Llamamos el metodo que esta en esta clase
-            IngresarDatos();
+            int opcionIngreso=0;
+            do {
+                System.out.println("-----------------------------------------");
+                System.out.println("1) Ingreso de datos: ");
+                System.out.println("2) Editar registros clasificados: ");
+                System.out.println("3) Eliminar registros: ");
+                while (true){
+                    try {
+                        opcionIngreso = sc.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
+                        sc.nextLine(); // Descartar token inv√°lido
+                    }
+                }
+                switch (opcionIngreso){
+                    case 1:{
+                        IngresarDatos();
+                        break;
+                    }
+                    case 2:{
+                        EditarDatos();
+                        break;
+                    }
+                    case 3:{
+                        //EliminarDatos();
+                        break;
+                    }
+                    default:{
+                        System.out.println("Opcion incorrecta");
+                        break;
+                    }
+                }
+
+            }while (opcionIngreso != 3);
         }
         case 2 -> {
+            System.out.println("-----------------------------------------");
+            System.out.println("Clasificacion de datos: ");
             System.out.println("-----------------------------------------");
             ClasificarDatos();
         }
@@ -869,16 +1465,17 @@ public void  Final (int opcion) throws InterruptedException {
             int opcionConsulta;
             System.out.println("-----------------------------------------");
             System.out.println("Deseas hacer una consultas por: ");
-            System.out.println("1) Modelo:");
-            System.out.println("2) Por marcas:");
+            System.out.println("1) Busqueda a traves de 3 criterios:");
+            System.out.println("2) Listas por marcas:");
             System.out.println("3) Por estado del producto");
+            System.out.println("4) Mostrar productos eliminados");
             while (true) {
                 try {
                     opcionConsulta = sc.nextInt();
                     break;
                 } catch (InputMismatchException e) {
                     System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
-                    sc.nextLine(); // Descartar token inv·lido
+                    sc.nextLine(); // Descartar token invalido
                 }
             }
             switch (opcionConsulta) {
@@ -894,6 +1491,10 @@ public void  Final (int opcion) throws InterruptedException {
                     System.out.println("-----------------------------------------");
                     MostrarEstado();
                 }
+                case 4 -> {
+                    System.out.println("-----------------------------------------");
+                    MostrarEliminados();
+                }
                 default -> System.out.println("Opcion incorrecta");
             }
         }
@@ -901,6 +1502,8 @@ public void  Final (int opcion) throws InterruptedException {
         default -> System.out.println("Opcion incorrecta");
     }
 }
+
+//Medotos para limpiar la consola y para presionar enter para continuar.
     public static void limpiarventana() throws IOException, InterruptedException
     {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -910,4 +1513,5 @@ public void  Final (int opcion) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
+    
 }

@@ -14,7 +14,11 @@ public class Samsung extends Producto {
         this.garantia = garantia;
         this.marca = marca;
     }
-    
+    public Samsung(String estado, int garantia, String modelo, int unidades, double peso, int anio, int mes, int dia) {
+        super(modelo, unidades, peso, anio, mes, dia);
+        this.estado = estado;
+        this.garantia = garantia;
+    }
     //Metodos setters y getters
     public String getEstado() {
         return estado;
