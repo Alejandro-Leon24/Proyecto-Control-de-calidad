@@ -443,7 +443,7 @@ public class logica {
                                     sc.nextLine(); // Descartar token invalido
                                 }
 
-                                Samsung[opcionEditarProducto-1]=new Samsung(estado,garantia,modelo,"Samsung",unidades,peso,dia,mes,anio);
+                                Samsung[opcionEditarProducto-1]=new Samsung(estado,garantia,"Samsung",modelo,unidades,peso,dia,mes,anio);
                                 System.out.println("Producto editado correctamente");
                                 promptEnterKey();
                                 try {
@@ -713,7 +713,7 @@ public class logica {
                                     sc.nextLine(); // Descartar token invalido
                                 }
 
-                                Lg[opcionEditarProducto-1]=new Lg(estado,garantia,modelo,"Lg",unidades,peso,dia,mes,anio);
+                                Lg[opcionEditarProducto-1]=new Lg(estado,garantia,"Lg",modelo,unidades,peso,dia,mes,anio);
                                 System.out.println("Producto editado correctamente");
                                 promptEnterKey();
                                 try {
@@ -806,7 +806,7 @@ public class logica {
                                 }
                             }
                          if (opcionEliminarProducto <=ingresos && opcionEliminarProducto>=1) {
-                             Producto[opcionEliminarProducto - 1] = ProductoEliminados[contadorEliminados];
+                             ProductoEliminados[contadorEliminados]=Producto[opcionEliminarProducto - 1];
                              //Eliminar el registro
                              Producto[] ProductoCopia = new Producto[registrosMax];
                              System.arraycopy(Producto, 0, ProductoCopia, 0, (opcionEliminarProducto - 1));
@@ -857,7 +857,7 @@ public class logica {
                              }
                          }
                          if (opcionEliminarProducto <=movimientosSamsung && opcionEliminarProducto>=1) {
-                             Samsung[opcionEliminarProducto - 1] = SamsungEliminados[contadorEliminadosSamsung];
+                             SamsungEliminados[contadorEliminadosSamsung]=Samsung[opcionEliminarProducto - 1];
                              //Eliminar el registro
                              Samsung[] SamsungCopia = new Samsung[registrosMax];
                              System.arraycopy(Samsung, 0, SamsungCopia, 0, (opcionEliminarProducto - 1));
@@ -907,7 +907,7 @@ public class logica {
                              }
                          }
                          if (opcionEliminarProducto <=movimientosRCA && opcionEliminarProducto>=1) {
-                             RCA[opcionEliminarProducto - 1] = RCAEliminados[contadorEliminadosSamsung];
+                             RCAEliminados[contadorEliminadosSamsung]=RCA[opcionEliminarProducto - 1];
                              //Eliminar el registro
                              RCA[] RCACopia = new RCA[registrosMax];
                              System.arraycopy(RCA, 0, RCACopia, 0, (opcionEliminarProducto - 1));
@@ -957,7 +957,7 @@ public class logica {
                              }
                          }
                          if (opcionEliminarProducto <=movimientosLg && opcionEliminarProducto>=1) {
-                             Lg[opcionEliminarProducto - 1] = LgEliminados[contadorEliminadosLg];
+                             LgEliminados[contadorEliminadosLg]=Lg[opcionEliminarProducto - 1];
                              //Eliminar el registro
                              Lg[] LGCopia = new Lg[registrosMax];
                              System.arraycopy(Lg, 0, LGCopia, 0, (opcionEliminarProducto - 1));
@@ -1708,7 +1708,7 @@ private void MostrarEliminados() throws InterruptedException {
     System.out.println("-----------------------------------------");
     System.out.println("Productos eliminados");
     System.out.println("-----------------------------------------");
-    for (int i = 0; i < Producto.length; i++) {
+    for (int i = 0; i < contadorEliminadosTotal; i++) {
         if (ProductoEliminados[i] != null) {
             ProductoEliminados[i].MostrarDatosEliminados();
             System.out.println("-----------------------------------------");
