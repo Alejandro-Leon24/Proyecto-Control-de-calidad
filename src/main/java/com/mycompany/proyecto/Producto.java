@@ -50,4 +50,11 @@ public class Producto extends Fecha{
         System.out.println("El peso del producto es: "+ getPeso());
         System.out.println("Su fecha de Ingreso es: ("+getDia()+"/"+getMes()+"/"+getAnio()+")");
     }
+    //Metodo para mostrar sus datos eliminados
+    public void MostrarDatosEliminados(){
+        System.out.println("El modelo de tu producto eliminado es: "+ getModelo());
+        System.out.println("Las unidades que tenia son: "+ getUnidades());
+        System.out.println("Su peso era : "+ getPeso());
+        System.out.println("Su fecha de Ingreso era: ("+getDia()+"/"+getMes()+"/"+getAnio()+")");
+    }
 }

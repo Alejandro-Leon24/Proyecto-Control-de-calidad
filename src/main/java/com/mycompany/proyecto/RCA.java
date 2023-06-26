@@ -14,11 +14,6 @@ public class RCA extends Producto{
         this.garantia = garantia;
         this.marca = marca;
     }
-    public RCA(String estado, int garantia, String modelo, int unidades, double peso, int anio, int mes, int dia) {
-        super(modelo, unidades, peso, anio, mes, dia);
-        this.estado = estado;
-        this.garantia = garantia;
-    }
     
     //Metodos setters y getters
     public String getEstado() {
@@ -57,5 +52,14 @@ public class RCA extends Producto{
         System.out.println("Las unidades disponibles son: "+ getUnidades());
         System.out.println("El peso del producto es: "+ getPeso());
         System.out.println("Su fecha de Ingreso es: ("+getDia()+"/"+getMes()+"/"+getAnio()+")");
+    }
+    @Override
+    public void MostrarDatosEliminados(){
+        System.out.println("La marca del producto eliminado era: "+getMarca());
+        System.out.println("El modelo de tu producto eliminado es: "+ getModelo());
+        System.out.println("Las unidades que tenia son: "+ getUnidades());
+        System.out.println("Su peso era : "+ getPeso());
+        System.out.println("Su fecha de Ingreso era: ("+getDia()+"/"+getMes()+"/"+getAnio()+")");
+        System.out.println("El estado del producto era: "+getEstado());
     }
 }

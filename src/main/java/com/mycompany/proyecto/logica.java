@@ -9,15 +9,18 @@ public class logica {
     //creamos un Sacnner para hacer ingresos desde el teclado
     Scanner sc= new Scanner(System.in);
     //Definimos las cantidad de registro que se podra ingresar
-    private final int registrosMax =2;
+    private final int registrosMax =50;
 
     //Creamos objetos de cada clase para usar los datos de esas clases y los metodos
     //Creamos 4 clases para los productos
     Producto[] Producto = new Producto[registrosMax]; //Primero sirve para almacenarlos sin marca
     Producto[] ProductoEliminados = new Producto[registrosMax]; //Para almacenar los eliminados
     Samsung[] Samsung = new Samsung[registrosMax];
+    Samsung[] SamsungEliminados = new Samsung[registrosMax];//Para almacenar los eliminados
     RCA[] RCA = new RCA[registrosMax];
+    RCA[] RCAEliminados = new RCA[registrosMax];//Para almacenar los eliminados
     Lg[] Lg = new Lg[registrosMax];
+    Lg[] LgEliminados = new Lg[registrosMax];//Para almacenar los eliminados
 
     //Creamos varibles para almacenar informacion de movimientos, entrada y salida de datos
     //contadores para los metodos
@@ -28,6 +31,25 @@ public class logica {
     private int movimientosSamsung=0; //Para saber si se ingreso aqua
     private int movimientosRCA=0;
     private int movimientosLg=0;
+    //Creamos contadores para los productos eliminados
+    private int contadorEliminados=0, contadorEliminadosSamsung=0, contadorEliminadosRCA=0, contadorEliminadosLg=0;
+    private int contadorEliminadosTotal=0; //Para saber cuantos productos se han eliminado en total
+    //Metodos setters y getters para contar los registros eliminados
+    public void setContadorEliminadosTotal(int contadorEliminadosTotal) {
+        this.contadorEliminadosTotal = contadorEliminadosTotal;
+    }
+    public int getContadorEliminados() {
+        return contadorEliminados;
+    }
+    public int getContadorEliminadosSamsung() {
+        return contadorEliminadosSamsung;
+    }
+    public int getContadorEliminadosRCA() {
+        return contadorEliminadosRCA;
+    }
+    public int getContadorEliminadosLg() {
+        return contadorEliminadosLg;
+    }
 
 
  private void IngresarDatos() throws InterruptedException { //Metodo para ingresar datos con una condicional
@@ -177,13 +199,21 @@ public class logica {
                 System.out.println("3) Productos RCA");
                 System.out.println("4) Productos LG");
                 System.out.println("5) Regresar al menu principal");
-                opcionEditar= sc.nextInt();
+                while (true){
+                    try {
+                        opcionEditar = sc.nextInt();
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
+                        sc.nextLine(); // Descartar token inválido
+                    }
+                }
                 switch (opcionEditar){
                     case 1:
-                        System.out.println("-----------------------------------------");
-                        System.out.println("Productos base sin clasificar");
-                        System.out.println("-----------------------------------------");
                         if (ingresos!=0) {
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Productos base sin clasificar");
+                            System.out.println("-----------------------------------------");
                             for (int i = 0; i < ingresos; i++) {
                                 System.out.println((i+1)+") "+Producto[i].getModelo());
                             }
@@ -292,13 +322,20 @@ public class logica {
                             }
                         }else{
                             System.out.println("No hay datos Ingresados");
+                            promptEnterKey();
+                            try {
+                                // Limpiar la ventana
+                                limpiarventana();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
                         }
                         break;
                     case 2:
-                        System.out.println("-----------------------------------------");
-                        System.out.println("Productos Samsung");
-                        System.out.println("-----------------------------------------");
                         if (movimientosSamsung!=0) {
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Productos Samsung");
+                            System.out.println("-----------------------------------------");
                             for (int i = 0; i < movimientosSamsung; i++) {
                                 System.out.println((i+1)+") "+Samsung[i].getModelo());
                             }
@@ -406,7 +443,7 @@ public class logica {
                                     sc.nextLine(); // Descartar token invalido
                                 }
 
-                                Samsung[opcionEditarProducto-1]=new Samsung(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                Samsung[opcionEditarProducto-1]=new Samsung(estado,garantia,modelo,"Samsung",unidades,peso,dia,mes,anio);
                                 System.out.println("Producto editado correctamente");
                                 promptEnterKey();
                                 try {
@@ -420,13 +457,20 @@ public class logica {
                             }
                         }else{
                             System.out.println("No hay datos Ingresados");
+                            promptEnterKey();
+                            try {
+                                // Limpiar la ventana
+                                limpiarventana();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
                         }
                         break;
                     case 3:
-                        System.out.println("-----------------------------------------");
-                        System.out.println("Productos RCA");
-                        System.out.println("-----------------------------------------");
                         if (movimientosRCA!=0) {
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Productos RCA");
+                            System.out.println("-----------------------------------------");
                             for (int i = 0; i < movimientosRCA; i++) {
                                 System.out.println((i+1)+") "+RCA[i].getModelo());
                             }
@@ -534,7 +578,7 @@ public class logica {
                                     sc.nextLine(); // Descartar token invalido
                                 }
 
-                                RCA[opcionEditarProducto-1]=new RCA(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                RCA[opcionEditarProducto-1]=new RCA(estado,garantia,"RCA",modelo,unidades,peso,dia,mes,anio);
                                 System.out.println("Producto editado correctamente");
                                 promptEnterKey();
                                 try {
@@ -548,13 +592,20 @@ public class logica {
                             }
                         }else{
                             System.out.println("No hay datos Ingresados");
+                            promptEnterKey();
+                            try {
+                                // Limpiar la ventana
+                                limpiarventana();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
                         }
                         break;
                     case 4:
-                        System.out.println("-----------------------------------------");
-                        System.out.println("Productos Lg");
-                        System.out.println("-----------------------------------------");
                         if (movimientosLg!=0) {
+                            System.out.println("-----------------------------------------");
+                            System.out.println("Productos Lg");
+                            System.out.println("-----------------------------------------");
                             for (int i = 0; i < movimientosLg; i++) {
                                 System.out.println((i+1)+") "+Lg[i].getModelo());
                             }
@@ -662,7 +713,7 @@ public class logica {
                                     sc.nextLine(); // Descartar token invalido
                                 }
 
-                                Lg[opcionEditarProducto-1]=new Lg(estado,garantia,modelo,unidades,peso,dia,mes,anio);
+                                Lg[opcionEditarProducto-1]=new Lg(estado,garantia,modelo,"Lg",unidades,peso,dia,mes,anio);
                                 System.out.println("Producto editado correctamente");
                                 promptEnterKey();
                                 try {
@@ -676,6 +727,13 @@ public class logica {
                             }
                         }else{
                             System.out.println("No hay datos Ingresados");
+                            promptEnterKey();
+                            try {
+                                // Limpiar la ventana
+                                limpiarventana();
+                            } catch (IOException ioe) {
+                                ioe.printStackTrace();
+                            }
                         }
                         break;
                         case 5:
@@ -695,9 +753,258 @@ public class logica {
             } while (opcionEditar !=5);
         }
     }
+    
+    private void EliminarDatos() throws InterruptedException {
+     if (ingresos==0 && movimientosSamsung==0 && movimientosRCA==0 && movimientosLg==0){
+         System.out.println("No hay datos Ingresados para eliminar");
+         promptEnterKey();
+         try {
+             // Limpiar la ventana
+             limpiarventana();
+         } catch (IOException ioe) {
+             ioe.printStackTrace();
+         }
+     }else{
+         int opcion;
+         do {
+             System.out.println("Que datos desea eliminar?");
+             System.out.println("1) Productos base sin clasificar");
+             System.out.println("2) Productos Samsung");
+             System.out.println("3) Productos RCA");
+             System.out.println("4) Productos LG");
+             System.out.println("5) Regresar al menu principal");
+             setContadorEliminadosTotal(getContadorEliminados()+getContadorEliminadosSamsung()+getContadorEliminadosRCA()+getContadorEliminadosLg());
+             while (true){
+                 try {
+                     opcion = sc.nextInt();
+                     break;
+                 } catch (InputMismatchException e) {
+                     System.out.println("Dato incorrecto. Solo se acepta numeros enteros indicados");
+                     sc.nextLine(); // Descartar token inválido
+                 }
+             }
+             switch (opcion){
+                 case 1:
+                     if(ingresos==0){
+                         System.out.println("No hay datos Ingresados para eliminar");
+                     }else{
+                         System.out.println("-----------------------------------------");
+                            System.out.println("Productos base sin clasificar");
+                            System.out.println("-----------------------------------------");
+                         for (int i = 0; i < ingresos; i++) {
+                             System.out.println((i+1)+") "+Producto[i].getModelo());
+                         }
+                            System.out.println("Ingrese el numero del producto que desea eliminar");
+                            int opcionEliminarProducto;
+                            while (true){
+                                try {
+                                    opcionEliminarProducto = sc.nextInt();
+                                    break;
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                    sc.nextLine(); // Descartar token invalido
+                                }
+                            }
+                         if (opcionEliminarProducto <=ingresos && opcionEliminarProducto>=1) {
+                             Producto[opcionEliminarProducto - 1] = ProductoEliminados[contadorEliminados];
+                             //Eliminar el registro
+                             Producto[] ProductoCopia = new Producto[registrosMax];
+                             System.arraycopy(Producto, 0, ProductoCopia, 0, (opcionEliminarProducto - 1));
+                             System.arraycopy(Producto, opcionEliminarProducto, ProductoCopia, (opcionEliminarProducto - 1), Producto.length - (opcionEliminarProducto - 1) - 1);
+                             Producto = ProductoCopia;
+                             ingresos--;
+                             contador--;
+                             contadorEliminados++;
+                             System.out.println("Producto eliminado correctamente");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }else{
+                             System.out.println("No existe ese numero en la lista");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }
+                     }
+                     break;
+                 case 2:
+                     if(movimientosSamsung==0){
+                         System.out.println("No hay datos Ingresados para eliminar");
+                     }else{
+                         System.out.println("-----------------------------------------");
+                         System.out.println("Productos Samsung");
+                         System.out.println("-----------------------------------------");
+                         for (int i = 0; i < movimientosSamsung; i++) {
+                             System.out.println((i+1)+") "+Samsung[i].getModelo());
+                         }
+                         System.out.println("Ingrese el numero del producto que desea eliminar");
+                         int opcionEliminarProducto;
+                         while (true){
+                             try {
+                                 opcionEliminarProducto = sc.nextInt();
+                                 break;
+                             } catch (InputMismatchException e) {
+                                 System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                 sc.nextLine(); // Descartar token invalido
+                             }
+                         }
+                         if (opcionEliminarProducto <=movimientosSamsung && opcionEliminarProducto>=1) {
+                             Samsung[opcionEliminarProducto - 1] = SamsungEliminados[contadorEliminadosSamsung];
+                             //Eliminar el registro
+                             Samsung[] SamsungCopia = new Samsung[registrosMax];
+                             System.arraycopy(Samsung, 0, SamsungCopia, 0, (opcionEliminarProducto - 1));
+                             System.arraycopy(Samsung, opcionEliminarProducto, SamsungCopia, (opcionEliminarProducto - 1), Samsung.length - (opcionEliminarProducto - 1) - 1);
+                             Samsung = SamsungCopia;
+                             movimientosSamsung--;
+                             contadorEliminadosSamsung++;
+                             System.out.println("Producto eliminado correctamente");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }else{
+                             System.out.println("No existe ese numero en la lista");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }
+                     }
+                     break;
+                 case 3:
+                     if(movimientosRCA==0){
+                         System.out.println("No hay datos Ingresados para eliminar");
+                     }else{
+                         System.out.println("-----------------------------------------");
+                         System.out.println("Productos RCA");
+                         System.out.println("-----------------------------------------");
+                         for (int i = 0; i < movimientosRCA; i++) {
+                             System.out.println((i+1)+") "+RCA[i].getModelo());
+                         }
+                         System.out.println("Ingrese el numero del producto que desea eliminar");
+                         int opcionEliminarProducto;
+                         while (true){
+                             try {
+                                 opcionEliminarProducto = sc.nextInt();
+                                 break;
+                             } catch (InputMismatchException e) {
+                                 System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                 sc.nextLine(); // Descartar token invalido
+                             }
+                         }
+                         if (opcionEliminarProducto <=movimientosRCA && opcionEliminarProducto>=1) {
+                             RCA[opcionEliminarProducto - 1] = RCAEliminados[contadorEliminadosSamsung];
+                             //Eliminar el registro
+                             RCA[] RCACopia = new RCA[registrosMax];
+                             System.arraycopy(RCA, 0, RCACopia, 0, (opcionEliminarProducto - 1));
+                             System.arraycopy(RCA, opcionEliminarProducto, RCACopia, (opcionEliminarProducto - 1), RCA.length - (opcionEliminarProducto - 1) - 1);
+                             RCA = RCACopia;
+                             movimientosRCA--;
+                             contadorEliminadosRCA++;
+                             System.out.println("Producto eliminado correctamente");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }else{
+                             System.out.println("No existe ese numero en la lista");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }
+                     }
+                     break;
+                 case 4:
+                     if(movimientosLg==0){
+                         System.out.println("No hay datos Ingresados para eliminar");
+                     }else{
+                         System.out.println("-----------------------------------------");
+                         System.out.println("Productos Lg");
+                         System.out.println("-----------------------------------------");
+                         for (int i = 0; i < movimientosLg; i++) {
+                             System.out.println((i+1)+") "+Lg[i].getModelo());
+                         }
+                         System.out.println("Ingrese el numero del producto que desea eliminar");
+                         int opcionEliminarProducto;
+                         while (true){
+                             try {
+                                 opcionEliminarProducto = sc.nextInt();
+                                 break;
+                             } catch (InputMismatchException e) {
+                                 System.out.println("Dato incorrecto. Solo se acepta numeros enteros");
+                                 sc.nextLine(); // Descartar token invalido
+                             }
+                         }
+                         if (opcionEliminarProducto <=movimientosLg && opcionEliminarProducto>=1) {
+                             Lg[opcionEliminarProducto - 1] = LgEliminados[contadorEliminadosLg];
+                             //Eliminar el registro
+                             Lg[] LGCopia = new Lg[registrosMax];
+                             System.arraycopy(Lg, 0, LGCopia, 0, (opcionEliminarProducto - 1));
+                             System.arraycopy(Lg, opcionEliminarProducto, LGCopia, (opcionEliminarProducto - 1), Lg.length - (opcionEliminarProducto - 1) - 1);
+                             Lg = LGCopia;
+                             movimientosLg--;
+                             contadorEliminadosLg++;
+                             System.out.println("Producto eliminado correctamente");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }else{
+                             System.out.println("No existe ese numero en la lista");
+                             promptEnterKey();
+                             try {
+                                 // Limpiar la ventana
+                                 limpiarventana();
+                             } catch (IOException ioe) {
+                                 ioe.printStackTrace();
+                             }
+                         }
+                     }
+                     break;
+                 case 5:
+                        System.out.println("Regresando al menu principal...........");
+                     promptEnterKey();
+                     try {
+                         // Limpiar la ventana
+                         limpiarventana();
+                     } catch (IOException ioe) {
+                         ioe.printStackTrace();
+                     }
+                     break;
+                     default:
+                         System.out.println("Opcion no valida");
+                         break;
+             }
+         }while (opcion!=5);
+     }
+    }
   private void ClasificarDatos() throws InterruptedException { //Metodo para clasificar los datos almacenados en la clase Producto y moverlos a otra clase
       //Verificamos si hay datos ingresados
-      if (Producto[0]== null) {
+      if (ingresos==0&& movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0) {
         System.out.println("No hay datos Ingresados");
         System.out.println("-----------------------------------------");
           promptEnterKey();
@@ -918,7 +1225,7 @@ public class logica {
   }
 private void Movimientos() throws InterruptedException { //Metodo de movimientos que me indica cuantos se han clasificado, cuantos se han ingresado
     //Y a que marca se a movido
-       if (Producto[0]== null) {
+       if (ingresos==0&& movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0) {
         System.out.println("No hay datos Ingresados(movimientos)");
         System.out.println("-----------------------------------------");
            promptEnterKey();
@@ -937,6 +1244,7 @@ private void Movimientos() throws InterruptedException { //Metodo de movimientos
            System.out.println("Se han realizado ("+movimientosSamsung+") clasificaciones de registros a Samsung");
            System.out.println("Se han realizado ("+movimientosRCA+") clasificaciones de registros a RCA");
            System.out.println("Se han realizado ("+movimientosLg+") clasificaciones de registros a Lg");
+           System.out.println("Se han eliminado ("+contadorEliminadosTotal+") registros");
            System.out.println("-----------------------------------------");
            promptEnterKey();
            try
@@ -953,7 +1261,7 @@ private void Movimientos() throws InterruptedException { //Metodo de movimientos
 }
 private void ConsultasModelo() throws InterruptedException { //Void para hacer consultas por el nombre del modeo
     //Verificamos que este lleno o no el arreglo
-    if (Producto[0]== null) {
+    if (ingresos==0 && movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0) {
         System.out.println("No hay datos Ingresados");
         System.out.println("-----------------------------------------");
         promptEnterKey();
@@ -1054,7 +1362,7 @@ private void ConsultasMarcas() throws InterruptedException {//Metodo para consul
     //Creamos una variable local primero para inicializar el while y para usarlo en el switch
     int opcion=0;
     //Sera un bucle hasta que el usuario ingrese el 5
-    if (Producto[0]== null) {
+    if (ingresos==0 && movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0) {
         System.out.println("No hay datos Ingresados");
         System.out.println("-----------------------------------------");
         promptEnterKey();
@@ -1200,7 +1508,7 @@ private void ConsultasMarcas() throws InterruptedException {//Metodo para consul
 
 private void MostrarEstado() throws InterruptedException { //Metodo para Mostrar todos los productos que que este en estado dañado, perfecto y vacio
      //Primero verificamos que esten llenos
-if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
+if (movimientosLg == 0 && movimientosRCA == 0 && movimientosSamsung == 0){
     System.out.println("No hay datos datos clasificados");
     promptEnterKey();
     try
@@ -1390,29 +1698,49 @@ if ((Samsung[0] == null) && (RCA[0] == null) && (Lg[0] == null)){
 }
 }
 
-private void MostrarEliminados(){
+private void MostrarEliminados() throws InterruptedException {
     //Este metodo es para mostrar los productos eliminados
     //Y aqui se mostraran los productos eliminados
+    if(contadorEliminadosTotal==0){
+        System.out.println("No hay productos eliminados");
+        System.out.println("-----------------------------------------");
+    }
     System.out.println("-----------------------------------------");
     System.out.println("Productos eliminados");
     System.out.println("-----------------------------------------");
     for (int i = 0; i < Producto.length; i++) {
-        if (Samsung[i] != null && Samsung[i].getEstado().equalsIgnoreCase("Eliminado")) {
-            Samsung[i].MostrarDatos();
+        if (ProductoEliminados[i] != null) {
+            ProductoEliminados[i].MostrarDatosEliminados();
             System.out.println("-----------------------------------------");
         }
+        if (SamsungEliminados[i] != null) {
+            SamsungEliminados[i].MostrarDatosEliminados();
+            System.out.println("-----------------------------------------");
+        }
+        if (RCAEliminados[i] != null) {
+            RCAEliminados[i].MostrarDatosEliminados();
+            System.out.println("-----------------------------------------");
+        }
+        if (LgEliminados[i] != null) {
+            LgEliminados[i].MostrarDatosEliminados();
+            System.out.println("-----------------------------------------");
+        }
+    }
+    promptEnterKey();
+    try
+    {
+        // Limpiar la ventana
+        limpiarventana();
+    }
+    catch (IOException ioe)
+    {
+        ioe.printStackTrace();
     }
 }
 
 public void  Final (int opcion) throws InterruptedException {
     //Y en este ultimo metodo se quedara en publico para que el programador solo pueda usar este metodo
     //Y aqui inicializara todos los metodos y si faltara uno daria error ya que algunos datos solo estan guardado en un metodo
-    System.out.println("Control de calidad de productos: ");
-    System.out.println("1)Ingreso de datos: ");
-    System.out.println("2)Clasificacion de datos: ");
-    System.out.println("3)Movimientos o historial: ");
-    System.out.println("4)Consultas: ");
-    System.out.println("5)Salir: ");
     switch (opcion) {
         case 1 -> {
             int opcionIngreso=0;
@@ -1421,6 +1749,7 @@ public void  Final (int opcion) throws InterruptedException {
                 System.out.println("1) Ingreso de datos: ");
                 System.out.println("2) Editar registros clasificados: ");
                 System.out.println("3) Eliminar registros: ");
+                System.out.println("4) Regresar al menu: ");
                 while (true){
                     try {
                         opcionIngreso = sc.nextInt();
@@ -1440,16 +1769,30 @@ public void  Final (int opcion) throws InterruptedException {
                         break;
                     }
                     case 3:{
-                        //EliminarDatos();
+                        EliminarDatos();
                         break;
                     }
+                    case 4:
+                        System.out.println("Regresando al menu......");
+                        System.out.println("-----------------------------------------");
+                        promptEnterKey();
+                        try
+                        {
+                            // Limpiar la ventana
+                            limpiarventana();
+                        }
+                        catch (IOException ioe)
+                        {
+                            ioe.printStackTrace();
+                        }
+                        break;
                     default:{
                         System.out.println("Opcion incorrecta");
                         break;
                     }
                 }
 
-            }while (opcionIngreso != 3);
+            }while (opcionIngreso !=4);
         }
         case 2 -> {
             System.out.println("-----------------------------------------");
@@ -1458,6 +1801,8 @@ public void  Final (int opcion) throws InterruptedException {
             ClasificarDatos();
         }
         case 3 -> {
+            System.out.println("-----------------------------------------");
+            System.out.println("Movimientos de datos: ");
             System.out.println("-----------------------------------------");
             Movimientos();
         }
